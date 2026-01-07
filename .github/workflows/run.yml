@@ -18,11 +18,11 @@ jobs:
           workload_identity_provider: projects/254125926608/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: axion-tts@lively-clover-483605-q8.iam.gserviceaccount.com
 
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      - run: pip install -U pip google-cloud-texttospeech
 
-      - run: pip install -r requirements.txt
       - run: python tts_generator.py
+
