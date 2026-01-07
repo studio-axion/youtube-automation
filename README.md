@@ -1,1 +1,26 @@
-# youtube-automation
+name: youtube-automation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/254125926608/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "tts-executor@lively-clover-483605-q8.iam.gserviceaccount.com"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+      - run: python tts_generator.py
