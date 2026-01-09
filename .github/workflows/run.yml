@@ -4,25 +4,29 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
+  id-token: write
 
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: projects/254125926608/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: axion-tts@lively-clover-483605-q8.iam.gserviceaccount.com
-
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: pip install -U pip google-cloud-texttospeech
+      - name: Debug - list workspace
+        run: |
+          pwd
+          ls -la
 
-      - run: python tts_generator.py
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r "${{ github.workspace }}/requirements.txt"
 
+      - name: Run TTS generator
+        run: python "${{ github.workspace }}/tts_generator.py"
