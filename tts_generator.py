@@ -11,3 +11,4 @@ output_path = output_dir / "test.mp3"
 tts.save(str(output_path))
 
 print(f"Generated: {output_path}")
+print("Files in output:", list(output_dir.glob("*")))
