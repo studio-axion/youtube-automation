@@ -10,23 +10,22 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Auth (Google Workload Identity Federation)
+      - name: Google Auth (WIF)
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: projects/254125926608/locations/global/workloadIdentityPools/github-pool/providers/XXXXXXXXXXXX
-          service_account: axion-tts@lively-clover-483605-q8.iam.gserviceaccount.com
+          workload_identity_provider: "projects/254125926608/locations/global/workloadIdentityPools/github-pool/providers/XXXXXXXXXXXX"
+          service_account: "axion-tts@lively-clover-483605-q8.iam.gserviceaccount.com"
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Debug - list workspace
+      - name: Debug
         run: |
           pwd
           ls -la
